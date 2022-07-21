@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.buffaloriders.ui.fragments.SplashScreenFragment"
+        android:label="SplashFragment">
+        <action
+            android:id="@+id/action_splashFragment_to_loadingFragment"
+            app:destination="@id/loadingFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.example.buffaloriders.ui.fragments.WebViewFragment"
+        android:label="WebViewFragment">
+        <argument
+            android:name="fullUrl"
+            android:defaultValue="url"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/loadingFragment"
+        android:name="com.example.buffaloriders.ui.fragments.LoadingFragment"
+        android:label="LoadingFragment">
+        <action
+            android:id="@+id/action_loadingFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.example.buffaloriders.ui.fragments.GameFragment"
+        android:label="GameFragment" />
+</navigation>

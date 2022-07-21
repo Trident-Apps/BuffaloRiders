@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">BuffaloRiders</string>
+
+    <string name="one_signal_id">4cc6e586-0fe6-4555-ae21-e044b42de7db</string>
+    <string name="facebook_app_id">606596647437585</string>
+    <string name="facebook_client_token">61474ea336b68e01a8da1d1841e8000d</string>
+    <string name="apps_dev_key">zWoCa4NBn4YkqTDRJRLzgT</string>
+    <string name="base_url">buffalorides.online/buffalo.php</string>
+
+    <string name="secure_get_parametr">qXHSN6QltK</string>
+    <string name="secure_key">qalgXVvJSq</string>
+    <string name="dev_tmz_key">2uOiMxz1Ys</string>
+    <string name="adb_key">qzzrCeKOMx</string>
+    <string name="referrer_key">kfxZvkXYx9</string>
+    <string name="gadid_key">Cy4suuZ4sZ</string>
+    <string name="deeplink_key">yvAa2lGWRS</string>
+    <string name="source_key">r0eWfUL5sj</string>
+    <string name="af_id_key">Rkx79gU3E2</string>
+    <string name="adset_id_key">ZFCKYKQ6Iw</string>
+    <string name="campaign_id_key">6wITZiQYMF</string>
+    <string name="app_campaign_key">dkSmIXhxa6</string>
+    <string name="adset_key">uS3kYBzt6f</string>
+    <string name="adgroup_key">ec1ASNirDN</string>
+    <string name="orig_cost_key">WLt7FdIXlp</string>
+    <string name="af_siteid_key">JRJLK9khtd</string>
+
+    <string name="press_on_bull">Press on the Bull</string>
+    <string name="total_score">Total Bulls</string>
+</resources>
