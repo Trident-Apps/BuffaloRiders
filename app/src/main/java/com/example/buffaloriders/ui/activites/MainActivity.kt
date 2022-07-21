@@ -1,4 +1,4 @@
-package com.example.buffaloriders.ui
+package com.example.buffaloriders.ui.activites
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -7,8 +7,6 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.navigation.NavHostController
-import androidx.navigation.fragment.NavHostFragment
 import com.example.buffaloriders.R
 import com.example.buffaloriders.util.Consts
 import com.onesignal.OneSignal

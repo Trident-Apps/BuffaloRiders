@@ -7,7 +7,6 @@ import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.appsflyer.AppsFlyerConversionListener
 import com.appsflyer.AppsFlyerLib
 import com.example.buffaloriders.R
@@ -15,17 +14,13 @@ import com.example.buffaloriders.util.Consts
 import com.facebook.applinks.AppLinkData
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.onesignal.OneSignal
-import kotlinx.coroutines.*
 import java.util.*
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 
 private const val TAG = "BuffaloViewModel"
 
 class BuffaloViewModel(app: Application) : AndroidViewModel(app) {
     var urlLiveData: MutableLiveData<String> = MutableLiveData()
-
 
 
     fun getDeepLink(activity: Activity) {
@@ -35,13 +30,13 @@ class BuffaloViewModel(app: Application) : AndroidViewModel(app) {
             Log.d(TAG, " deep + ${it?.targetUri.toString()}")
 
             when {
-                        it?.targetUri.toString() == "null" -> {
-                            Log.d(TAG, " apps started")
-                         //   sendOneSignalTag("")
-                            getAppsFlyer(activity)
+                it?.targetUri.toString() == "null" -> {
+                    Log.d(TAG, " apps started")
+                    getAppsFlyer(activity)
                 }
                 else -> {
                     urlLiveData.postValue(createUrl(it?.targetUri.toString(), null, activity))
+                    sendOneSignalTag(it?.targetUri.toString(), null)
                 }
             }
 
@@ -53,12 +48,12 @@ class BuffaloViewModel(app: Application) : AndroidViewModel(app) {
         Log.d(TAG, " apps started2")
 
         AppsFlyerLib.getInstance().init(
-            "zWoCa4NBn4YkqTDRJRLzgT",
+            Consts.APPS_DEV_KEY,
             object : AppsFlyerConversionListener {
                 override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
                     Log.d(TAG, " apps started3")
-
                     urlLiveData.postValue(createUrl("null", data, activity))
+                    sendOneSignalTag("null", data)
                 }
 
                 override fun onConversionDataFail(message: String?) {
@@ -75,7 +70,6 @@ class BuffaloViewModel(app: Application) : AndroidViewModel(app) {
             activity
         )
         AppsFlyerLib.getInstance().start(activity)
-
     }
 
 

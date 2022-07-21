@@ -1,5 +1,7 @@
 package com.example.buffaloriders.ui.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Message
 import android.view.LayoutInflater
@@ -11,7 +13,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.buffaloriders.databinding.WebViewFragmentBinding
-import com.example.buffaloriders.ui.dataStore
+import com.example.buffaloriders.ui.activites.dataStore
+
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -19,6 +22,8 @@ class WebViewFragment : Fragment() {
     private var _binding: WebViewFragmentBinding? = null
     private val binding get() = _binding!!
     lateinit var webView: WebView
+    private var messageAb: ValueCallback<Array<Uri?>>? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +45,23 @@ class WebViewFragment : Fragment() {
 
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
+            }
+
+            override fun onShowFileChooser(
+                webView: WebView?,
+                filePathCallback: ValueCallback<Array<Uri?>>?,
+                fileChooserParams: FileChooserParams?
+            ): Boolean {
+                messageAb = filePathCallback
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                intent.type = "image/*"
+                startActivityForResult(
+                    Intent.createChooser(intent, "Image Chooser"), 1
+                )
+
+                return super.onShowFileChooser(webView, filePathCallback, fileChooserParams)
             }
 
             override fun onCreateWindow(

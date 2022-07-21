@@ -16,7 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.buffaloriders.R
 import com.example.buffaloriders.databinding.LoadingFragmentBinding
-import com.example.buffaloriders.ui.dataStore
+import com.example.buffaloriders.ui.activites.dataStore
 import com.example.buffaloriders.ui.viewmodel.BuffaloViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -67,17 +67,17 @@ class LoadingFragment : Fragment() {
                     Log.d(TAG, "Datastore null")
 
 
-                       viewModel.getDeepLink(this@LoadingFragment.requireActivity())
+                    viewModel.getDeepLink(this@LoadingFragment.requireActivity())
                     Log.d(TAG, "Init after")
 
 
-                    lifecycleScope.launch(Dispatchers.Main){
-                      viewModel.urlLiveData.observe(viewLifecycleOwner) {
-                          Log.d(TAG, "Appsflyer init url start111231241")
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        viewModel.urlLiveData.observe(viewLifecycleOwner) {
+                            Log.d(TAG, "Appsflyer init url start111231241")
 
-                          startWebView(it)
-                      }
-                  }
+                            startWebView(it)
+                        }
+                    }
                 } else {
                     startWebView(dataStoreValue.toString())
                 }

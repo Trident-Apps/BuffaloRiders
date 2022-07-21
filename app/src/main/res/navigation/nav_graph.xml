@@ -2,19 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/loadingFragment">
 
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.example.buffaloriders.ui.fragments.SplashScreenFragment"
-        android:label="SplashFragment">
-        <action
-            android:id="@+id/action_splashFragment_to_loadingFragment"
-            app:destination="@id/loadingFragment" />
-        <action
-            android:id="@+id/action_splashFragment_to_gameFragment"
-            app:destination="@id/gameFragment" />
-    </fragment>
     <fragment
         android:id="@+id/webViewFragment"
         android:name="com.example.buffaloriders.ui.fragments.WebViewFragment"
@@ -31,6 +20,9 @@
         <action
             android:id="@+id/action_loadingFragment_to_webViewFragment"
             app:destination="@id/webViewFragment" />
+        <action
+            android:id="@+id/action_loadingFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
 
     </fragment>
     <fragment
