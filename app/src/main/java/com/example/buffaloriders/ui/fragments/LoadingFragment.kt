@@ -3,6 +3,7 @@ package com.example.buffaloriders.ui.fragments
 import android.content.Context
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +18,13 @@ import com.example.buffaloriders.R
 import com.example.buffaloriders.databinding.LoadingFragmentBinding
 import com.example.buffaloriders.ui.dataStore
 import com.example.buffaloriders.ui.viewmodel.BuffaloViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.io.File
 
 class LoadingFragment : Fragment() {
+    private val TAG = "BuffaloViewModel"
 
     private var _binding: LoadingFragmentBinding? = null
     private val binding get() = _binding
@@ -50,14 +54,30 @@ class LoadingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "OnViewCreated")
 
         if (!isSecured()) {
-            lifecycleScope.launchWhenCreated {
+            Log.d(TAG, "Secure Checked")
+
+            lifecycleScope.launch(Dispatchers.IO) {
                 val dataStoreValue = checkDataStoreValue("finalUrl")
+                Log.d(TAG, "After Datastore")
+
                 if (dataStoreValue == null) {
-                    viewModel.urlLiveData.observe(viewLifecycleOwner) {
-                        startWebView(it)
-                    }
+                    Log.d(TAG, "Datastore null")
+
+
+                       viewModel.getDeepLink(this@LoadingFragment.requireActivity())
+                    Log.d(TAG, "Init after")
+
+
+                    lifecycleScope.launch(Dispatchers.Main){
+                      viewModel.urlLiveData.observe(viewLifecycleOwner) {
+                          Log.d(TAG, "Appsflyer init url start111231241")
+
+                          startWebView(it)
+                      }
+                  }
                 } else {
                     startWebView(dataStoreValue.toString())
                 }

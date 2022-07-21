@@ -24,7 +24,7 @@ class SplashScreenFragment : Fragment() {
         _binding = SplashFragmentBinding.inflate(inflater, container, false)
         val view = binding?.root
 
-        splashScreenDelay()
+
         return view
     }
 
@@ -34,6 +34,10 @@ class SplashScreenFragment : Fragment() {
         }, 2000)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        splashScreenDelay()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -1,6 +1,8 @@
 package com.example.buffaloriders.ui.viewmodel
 
+import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
@@ -24,69 +26,58 @@ private const val TAG = "BuffaloViewModel"
 class BuffaloViewModel(app: Application) : AndroidViewModel(app) {
     var urlLiveData: MutableLiveData<String> = MutableLiveData()
 
-    init {
-        initUrl()
-    }
 
-    private fun initUrl() {
-        viewModelScope.launch {
-            val appsFlyerDeferred: Deferred<MutableMap<String, Any>?> = async { getAppsFlyer() }
-            Log.d(TAG, "AppsFlyer deferred -$appsFlyerDeferred")
 
-            val deepLinkDeferred: Deferred<String> = async { getDeepLink() }
-            Log.d(TAG, "Deeplink deferred -$deepLinkDeferred")
+    fun getDeepLink(activity: Activity) {
+        Log.d(TAG, " deep started")
 
-            sendOneSignalTag(deepLinkDeferred.await(), appsFlyerDeferred.await())
-            val logOnesignal =
-                sendOneSignalTag(deepLinkDeferred.await(), appsFlyerDeferred.await()).toString()
-            Log.d(TAG, " OneSignal tag $logOnesignal")
+        AppLinkData.fetchDeferredAppLinkData(activity) {
+            Log.d(TAG, " deep + ${it?.targetUri.toString()}")
 
-            withContext(Dispatchers.Default) {
-                val url = createUrl(deepLinkDeferred.await(), appsFlyerDeferred.await())
-
-                Log.d(TAG, "Created url $url")
-                urlLiveData.postValue(url)
+            when {
+                        it?.targetUri.toString() == "null" -> {
+                            Log.d(TAG, " apps started")
+                         //   sendOneSignalTag("")
+                            getAppsFlyer(activity)
+                }
+                else -> {
+                    urlLiveData.postValue(createUrl(it?.targetUri.toString(), null, activity))
+                }
             }
+
         }
     }
 
-    private suspend fun getDeepLink(): String {
-        return suspendCoroutine { continuation ->
-            AppLinkData.fetchDeferredAppLinkData(getApplication()) {
-                continuation.resume(it?.targetUri.toString())
-            }
-        }
+
+    private fun getAppsFlyer(activity: Activity) {
+        Log.d(TAG, " apps started2")
+
+        AppsFlyerLib.getInstance().init(
+            "zWoCa4NBn4YkqTDRJRLzgT",
+            object : AppsFlyerConversionListener {
+                override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
+                    Log.d(TAG, " apps started3")
+
+                    urlLiveData.postValue(createUrl("null", data, activity))
+                }
+
+                override fun onConversionDataFail(message: String?) {
+                    Log.d(TAG, " apps started4")
+
+                }
+
+                override fun onAppOpenAttribution(p0: MutableMap<String, String>?) {}
+                override fun onAttributionFailure(p0: String?) {
+                    Log.d(TAG, " apps started5")
+
+                }
+            },
+            activity
+        )
+        AppsFlyerLib.getInstance().start(activity)
+
     }
 
-    private suspend fun getAppsFlyer(): MutableMap<String, Any>? {
-        return suspendCoroutine { continuation ->
-            AppsFlyerLib.getInstance().init(
-                (Consts.AF_ID_KEY),
-                object : AppsFlyerConversionListener {
-                    override fun onConversionDataSuccess(p0: MutableMap<String, Any>?) {
-                        continuation.resume(p0)
-                        Log.d(TAG, "Appsflyer success")
-                    }
-
-                    override fun onConversionDataFail(p0: String?) {
-                        Log.d(TAG, "Appsflyer error")
-
-                    }
-
-                    override fun onAppOpenAttribution(p0: MutableMap<String, String>?) {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onAttributionFailure(p0: String?) {
-                        TODO("Not yet implemented")
-                    }
-
-                },
-                getApplication()
-            )
-            AppsFlyerLib.getInstance().start(getApplication())
-        }
-    }
 
     private fun sendOneSignalTag(deepLink: String, data: MutableMap<String, Any>?) {
         val campaign = data?.get("campaign").toString()
@@ -100,9 +91,15 @@ class BuffaloViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    private fun createUrl(deepLink: String, data: MutableMap<String, Any>?): String {
-        val app = getApplication<Application>().applicationContext
-        val gadId = AdvertisingIdClient.getAdvertisingIdInfo(getApplication()).id.toString()
+    private fun createUrl(
+        deepLink: String,
+        data: MutableMap<String, Any>?,
+        activity: Context
+    ): String {
+        val app = activity.applicationContext
+        val gadId =
+            AdvertisingIdClient.getAdvertisingIdInfo(activity.applicationContext).id.toString()
+        OneSignal.setExternalUserId(gadId)
         val baseUrl = R.string.base_url.toString()
         val url = baseUrl.toUri().buildUpon().apply {
             appendQueryParameter(
@@ -121,7 +118,7 @@ class BuffaloViewModel(app: Application) : AndroidViewModel(app) {
             )
             appendQueryParameter(
                 app.resources.getString(R.string.af_id_key),
-                AppsFlyerLib.getInstance().getAppsFlyerUID(getApplication())
+                AppsFlyerLib.getInstance().getAppsFlyerUID(activity.applicationContext)
             )
             appendQueryParameter(
                 app.resources.getString(R.string.adset_id_key),

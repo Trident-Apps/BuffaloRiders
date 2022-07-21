@@ -10,6 +10,9 @@
         <entry key="..\:/Job_Trident/BuffaloRiders/App/app/src/main/res/layout/loading_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/Job_Trident/BuffaloRiders/App/app/src/main/res/layout/splash_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/Job_Trident/BuffaloRiders/App/app/src/main/res/layout/web_view_fragment.xml" value="0.365625" />
+        <entry key="app/src/main/res/layout/game_fragment.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/loading_fragment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/splash_fragment.xml" value="0.1" />
       </map>
     </option>
   </component>
