@@ -9,10 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
 import androidx.activity.OnBackPressedCallback
+import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.onlin.golf.rival.onlin.R
 import com.onlin.golf.rival.onlin.databinding.WebViewFragmentBinding
 import com.sports.real.golf.rival.onlin.ui.activites.dataStore
 
@@ -37,6 +40,8 @@ class WebViewFragment : Fragment() {
         webView = binding.webView
         arguments?.getString("fullUrl")?.let { webView.loadUrl(it) }
         webView.webViewClient = LocalClient()
+        webView.settings.userAgentString =
+            "Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36"
         webView.settings.javaScriptEnabled = true
         CookieManager.getInstance().setAcceptCookie(true)
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true)
@@ -117,18 +122,28 @@ class WebViewFragment : Fragment() {
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
-            lifecycleScope.launch {
-                if (checkDataStore("sharedPref")) {
-                    saveUrl(url!!)
+            url?.let {
+                if (it == "https://buffalorides.online/") {
+                    findNavController().navigate(R.id.gameFragment)
+                } else {
+                    lifecycleScope.launch {
+                        if (checkDataStore("sharedPref").isNullOrEmpty()) {
+                            val dataStoreKey = stringPreferencesKey("sharedPref")
+                            context?.dataStore?.edit { sharedPref ->
+                                sharedPref[dataStoreKey] = "final"
+                            }
+                            saveUrl(url)
+                        }
+                    }
                 }
             }
         }
     }
 
-    private suspend fun checkDataStore(key: String): Boolean {
+    private suspend fun checkDataStore(key: String): String? {
         val dataStoreKey = stringPreferencesKey(key)
         val preferences = context!!.dataStore.data.first()
-        return preferences[dataStoreKey] == null
+        return preferences[dataStoreKey]
     }
 
     private suspend fun saveUrl(url: String) {

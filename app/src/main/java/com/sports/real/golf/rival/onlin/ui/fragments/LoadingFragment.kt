@@ -56,7 +56,7 @@ class LoadingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "OnViewCreated")
 
-        if (isSecured() == false){
+        if (isSecured()){
             Log.d(TAG, "Secure Checked")
 
             lifecycleScope.launch(Dispatchers.IO) {

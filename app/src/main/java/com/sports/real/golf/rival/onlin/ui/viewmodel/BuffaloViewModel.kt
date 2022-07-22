@@ -79,9 +79,9 @@ class BuffaloViewModel(app: Application) : AndroidViewModel(app) {
 
         if (campaign == "null" && deepLink == "null") {
             OneSignal.sendTag("key2", "organic")
-        } else if (deepLink !== " null") {
+        } else if (deepLink != "null") {
             OneSignal.sendTag("key2,", deepLink.replace("myapp://", "").substringBefore("/"))
-        } else if (campaign !== "null") {
+        } else if (campaign != "null") {
             OneSignal.sendTag("key2", campaign.substringBefore("_"))
         }
     }

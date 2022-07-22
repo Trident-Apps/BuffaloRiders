@@ -1,8 +1,5 @@
 package com.sports.real.golf.rival.onlin.ui.activites
 
-
-import android.app.Activity
-import android.bluetooth.le.AdvertisingSet
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -16,9 +13,7 @@ import com.onesignal.OneSignal
 import com.onlin.golf.rival.onlin.R
 import com.sports.real.golf.rival.onlin.util.Consts
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 private val TAG = "BuffaloViewModel"
 
@@ -31,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.d(TAG, "Start Activity")
 
-        lifecycleScope.async {
+        lifecycleScope.launch(Dispatchers.IO) {
             val gadId =
                 AdvertisingIdClient.getAdvertisingIdInfo(applicationContext).id.toString()
             OneSignal.initWithContext(applicationContext)
