@@ -1,4 +1,4 @@
-package com.example.buffaloriders
+package com.sports.real.golf.rival.onlin
 
 import android.app.Application
 

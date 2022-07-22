@@ -1,4 +1,4 @@
-package com.example.buffaloriders.ui.fragments
+package com.sports.real.golf.rival.onlin.ui.fragments
 
 import android.content.Intent
 import android.net.Uri
@@ -8,12 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
+import androidx.activity.OnBackPressedCallback
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.example.buffaloriders.databinding.WebViewFragmentBinding
-import com.example.buffaloriders.ui.activites.dataStore
+import com.onlin.golf.rival.onlin.databinding.WebViewFragmentBinding
+import com.sports.real.golf.rival.onlin.ui.activites.dataStore
 
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -87,6 +88,21 @@ class WebViewFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (webView.canGoBack()) {
+                        webView.goBack()
+                    } else {
+                        isEnabled = false
+                    }
+                }
+            })
+    }
 
     private inner class LocalClient : WebViewClient() {
         override fun onReceivedError(
@@ -97,6 +113,7 @@ class WebViewFragment : Fragment() {
             super.onReceivedError(view, request, error)
 
         }
+
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)

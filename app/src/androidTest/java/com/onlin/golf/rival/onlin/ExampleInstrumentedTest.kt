@@ -1,4 +1,4 @@
-package com.example.buffaloriders
+package com.onlin.golf.rival.onlin
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

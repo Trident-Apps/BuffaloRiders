@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.buffaloriders">
+    package="com.onlin.golf.rival.onlin">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".AppsData"
+        android:name="com.sports.real.golf.rival.onlin.AppsData"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,26 +15,26 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BuffaloRiders"
+        android:theme="@style/Splash.Theme"
         tools:replace="android:fullBackupContent"
         tools:targetApi="31">
+
         <activity
-            android:name=".ui.activites.SplashActivity"
+            android:name="com.sports.real.golf.rival.onlin.ui.activites.SplashActivity"
             android:exported="true"
-            android:theme="@style/SplashScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.activites.MainActivity"
-            android:exported="true">
+            android:theme="@style/Splash.Theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.sports.real.golf.rival.onlin.ui.activites.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize">
         </activity>
 
         <meta-data

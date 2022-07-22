@@ -1,4 +1,4 @@
-package com.example.buffaloriders
+package com.onlin.golf.rival.onlin
 
 import org.junit.Test
 

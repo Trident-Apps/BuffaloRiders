@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/webViewFragment"
-        android:name="com.example.buffaloriders.ui.fragments.WebViewFragment"
+        android:name="com.sports.real.golf.rival.onlin.ui.fragments.WebViewFragment"
         android:label="WebViewFragment">
         <argument
             android:name="fullUrl"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/loadingFragment"
-        android:name="com.example.buffaloriders.ui.fragments.LoadingFragment"
+        android:name="com.sports.real.golf.rival.onlin.ui.fragments.LoadingFragment"
         android:label="LoadingFragment">
         <action
             android:id="@+id/action_loadingFragment_to_webViewFragment"
@@ -27,6 +27,6 @@
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.example.buffaloriders.ui.fragments.GameFragment"
+        android:name="com.sports.real.golf.rival.onlin.ui.fragments.GameFragment"
         android:label="GameFragment" />
 </navigation>

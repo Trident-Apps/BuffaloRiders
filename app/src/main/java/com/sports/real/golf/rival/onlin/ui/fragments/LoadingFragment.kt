@@ -1,4 +1,4 @@
-package com.example.buffaloriders.ui.fragments
+package com.sports.real.golf.rival.onlin.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -14,10 +14,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.buffaloriders.R
-import com.example.buffaloriders.databinding.LoadingFragmentBinding
-import com.example.buffaloriders.ui.activites.dataStore
-import com.example.buffaloriders.ui.viewmodel.BuffaloViewModel
+import com.onlin.golf.rival.onlin.R
+import com.onlin.golf.rival.onlin.databinding.LoadingFragmentBinding
+import com.sports.real.golf.rival.onlin.ui.activites.dataStore
+import com.sports.real.golf.rival.onlin.ui.viewmodel.BuffaloViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -56,7 +56,7 @@ class LoadingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "OnViewCreated")
 
-        if (!isSecured()) {
+        if (isSecured() == false){
             Log.d(TAG, "Secure Checked")
 
             lifecycleScope.launch(Dispatchers.IO) {
@@ -79,7 +79,9 @@ class LoadingFragment : Fragment() {
                         }
                     }
                 } else {
-                    startWebView(dataStoreValue.toString())
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        startWebView(dataStoreValue.toString())
+                    }
                 }
             }
         } else {

@@ -1,4 +1,4 @@
-package com.example.buffaloriders.ui.fragments
+package com.sports.real.golf.rival.onlin.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.example.buffaloriders.R
-import com.example.buffaloriders.databinding.GameFragmentBinding
+import com.onlin.golf.rival.onlin.R
+import com.onlin.golf.rival.onlin.databinding.GameFragmentBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

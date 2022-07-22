@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BuffaloRiders</string>
+    <string name="app_name">Buffalo Riders</string>
 
     <string name="one_signal_id">4cc6e586-0fe6-4555-ae21-e044b42de7db</string>
     <string name="facebook_app_id">606596647437585</string>
@@ -25,5 +25,5 @@
     <string name="af_siteid_key">JRJLK9khtd</string>
 
     <string name="press_on_bull">Press on the Bull</string>
-    <string name="total_score">Total Bulls</string>
+    <string name="total_score">Total Bulls:</string>
 </resources>

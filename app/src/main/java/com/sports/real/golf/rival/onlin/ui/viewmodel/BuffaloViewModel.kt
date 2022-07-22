@@ -1,4 +1,4 @@
-package com.example.buffaloriders.ui.viewmodel
+package com.sports.real.golf.rival.onlin.ui.viewmodel
 
 import android.app.Activity
 import android.app.Application
@@ -9,11 +9,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.appsflyer.AppsFlyerConversionListener
 import com.appsflyer.AppsFlyerLib
-import com.example.buffaloriders.R
-import com.example.buffaloriders.util.Consts
 import com.facebook.applinks.AppLinkData
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.onesignal.OneSignal
+import com.sports.real.golf.rival.onlin.util.Consts
 import java.util.*
 
 
@@ -52,12 +51,14 @@ class BuffaloViewModel(app: Application) : AndroidViewModel(app) {
             object : AppsFlyerConversionListener {
                 override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
                     Log.d(TAG, " apps started3")
-                    urlLiveData.postValue(createUrl("null", data, activity))
                     sendOneSignalTag("null", data)
+                    urlLiveData.postValue(createUrl("null", data, activity))
+
                 }
 
                 override fun onConversionDataFail(message: String?) {
                     Log.d(TAG, " apps started4")
+
 
                 }
 
@@ -79,7 +80,7 @@ class BuffaloViewModel(app: Application) : AndroidViewModel(app) {
         if (campaign == "null" && deepLink == "null") {
             OneSignal.sendTag("key2", "organic")
         } else if (deepLink !== " null") {
-            OneSignal.sendTag("Key2,", deepLink.replace("myapp://", "").substringBefore("/"))
+            OneSignal.sendTag("key2,", deepLink.replace("myapp://", "").substringBefore("/"))
         } else if (campaign !== "null") {
             OneSignal.sendTag("key2", campaign.substringBefore("_"))
         }
@@ -90,56 +91,55 @@ class BuffaloViewModel(app: Application) : AndroidViewModel(app) {
         data: MutableMap<String, Any>?,
         activity: Context
     ): String {
-        val app = activity.applicationContext
         val gadId =
             AdvertisingIdClient.getAdvertisingIdInfo(activity.applicationContext).id.toString()
         OneSignal.setExternalUserId(gadId)
-        val baseUrl = R.string.base_url.toString()
+        val baseUrl = Consts.BASE_URL
         val url = baseUrl.toUri().buildUpon().apply {
             appendQueryParameter(
-                app.resources.getString(R.string.secure_get_parametr),
-                app.resources.getString(R.string.secure_key)
+                Consts.SECURE_GET_PARAMETR,
+                Consts.SECURE_KEY
             )
             appendQueryParameter(
-                app.resources.getString(R.string.dev_tmz_key),
+                Consts.DEV_TMZ_KEY,
                 TimeZone.getDefault().id
             )
-            appendQueryParameter(app.resources.getString(R.string.gadid_key), gadId)
-            appendQueryParameter(app.resources.getString(R.string.deeplink_key), deepLink)
+            appendQueryParameter(Consts.GADID_KEY, gadId)
+            appendQueryParameter(Consts.DEEPLINK_KEY, deepLink)
             appendQueryParameter(
-                app.resources.getString(R.string.source_key),
+                Consts.SOURCE_KEY,
                 data?.get("media_source").toString()
             )
             appendQueryParameter(
-                app.resources.getString(R.string.af_id_key),
+                Consts.AF_ID_KEY,
                 AppsFlyerLib.getInstance().getAppsFlyerUID(activity.applicationContext)
             )
             appendQueryParameter(
-                app.resources.getString(R.string.adset_id_key),
+                Consts.ADSRT_KEY,
                 data?.get("adset_id").toString()
             )
             appendQueryParameter(
-                app.resources.getString(R.string.campaign_id_key),
+                Consts.CAMPAIGN_ID_KEY,
                 data?.get("campaign_id").toString()
             )
             appendQueryParameter(
-                app.resources.getString(R.string.app_campaign_key),
+                Consts.APP_CAMPAIGN_KEY,
                 data?.get("campaign").toString()
             )
             appendQueryParameter(
-                app.resources.getString(R.string.adset_key),
+                Consts.ADSRT_KEY,
                 data?.get("adset").toString()
             )
             appendQueryParameter(
-                app.resources.getString(R.string.adgroup_key),
+                Consts.ADGROUP_KEY,
                 data?.get("adgroup").toString()
             )
             appendQueryParameter(
-                app.resources.getString(R.string.orig_cost_key),
+                Consts.ORIG_CONST_KEY,
                 data?.get("orig_cost").toString()
             )
             appendQueryParameter(
-                app.resources.getString(R.string.af_siteid_key),
+                Consts.AF_SITE_ID_KEY,
                 data?.get("af_siteid").toString()
             )
         }.toString()
